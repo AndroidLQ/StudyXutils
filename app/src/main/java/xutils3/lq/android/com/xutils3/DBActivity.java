@@ -216,6 +216,10 @@ public class DBActivity extends AppCompatActivity implements View.OnClickListene
         Cursor cursor = db.execQuery(sql);
         User user = null;
         List<User> list = new ArrayList<>();
+        if(cursor == null){
+            Toast.makeText(DBActivity.this, "sql 语句有问题，cursor为null" , Toast.LENGTH_LONG).show();
+            return;
+        }
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 String name = cursor.getString(cursor.getColumnIndex("NAME"));
