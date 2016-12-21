@@ -15,30 +15,29 @@ import java.util.Map;
 /**
  * Created by a on 2016/12/21.
  * 使用xutls3一定要在application初始化 x.Ext.init(this);
- *
- // 加到url里的参数, http://xxxx/s?wd=xUtils
- // params.addQueryStringParameter("wd", "xUtils");
-
- // 添加到请求body体的参数, 只有POST, PUT, PATCH, DELETE请求支持.
- // params.addBodyParameter("wd", "xUtils");
-
- // 使用multipart表单上传文件
- //        params.setMultipart(true);
- //        params.addBodyParameter(
- //                "file",
- //                new File("/sdcard/test.jpg"),
- //                null); // 如果文件没有扩展名, 最好设置contentType参数.
- //        try {
- //            params.addBodyParameter(
- //                    "file2",
- //                    new FileInputStream(new File("/sdcard/test2.jpg")),
- //                    "image/jpeg",
- //                    // 测试中文文件名
- //                    "你+& \" 好.jpg"); // InputStream参数获取不到文件名, 最好设置, 除非服务端不关心这个参数.
- //        } catch (FileNotFoundException ex) {
- //            ex.printStackTrace();
- //        }
- *
+ * <p>
+ * // 加到url里的参数, http://xxxx/s?wd=xUtils
+ * // params.addQueryStringParameter("wd", "xUtils");
+ * <p>
+ * // 添加到请求body体的参数, 只有POST, PUT, PATCH, DELETE请求支持.
+ * // params.addBodyParameter("wd", "xUtils");
+ * <p>
+ * // 使用multipart表单上传文件
+ * //        params.setMultipart(true);
+ * //        params.addBodyParameter(
+ * //                "file",
+ * //                new File("/sdcard/test.jpg"),
+ * //                null); // 如果文件没有扩展名, 最好设置contentType参数.
+ * //        try {
+ * //            params.addBodyParameter(
+ * //                    "file2",
+ * //                    new FileInputStream(new File("/sdcard/test2.jpg")),
+ * //                    "image/jpeg",
+ * //                    // 测试中文文件名
+ * //                    "你+& \" 好.jpg"); // InputStream参数获取不到文件名, 最好设置, 除非服务端不关心这个参数.
+ * //        } catch (FileNotFoundException ex) {
+ * //            ex.printStackTrace();
+ * //        }
  */
 
 public class XutilRequestManager implements IRequestManager {
@@ -50,7 +49,10 @@ public class XutilRequestManager implements IRequestManager {
 
     private static volatile XutilRequestManager xutilRequestManager;
 
-    private XutilRequestManager() {};
+    private XutilRequestManager() {
+    }
+
+    ;
 
     public static XutilRequestManager getInstance() {
         if (xutilRequestManager == null) {
@@ -74,20 +76,19 @@ public class XutilRequestManager implements IRequestManager {
     }
 
     /**
-     *
      * @param url
      * @param maps
      */
 
-    private void setRequestParams(String url, Map<String, String> maps,boolean paramsType) {
+    private void setRequestParams(String url, Map<String, String> maps, boolean paramsType) {
         params = new RequestParams(url);
         params.setConnectTimeout(GET_CONNECT_TIME_OUT);
         params.setMaxRetryCount(MAX_RETRY_COUNT);
         if (maps != null) {
             for (Map.Entry<String, String> entry : maps.entrySet()) {
-                if(paramsType){
+                if (paramsType) {
                     params.addQueryStringParameter(entry.getKey(), entry.getValue());
-                }else {
+                } else {
                     params.addBodyParameter(entry.getKey(), entry.getValue());
                 }
             }
@@ -96,7 +97,7 @@ public class XutilRequestManager implements IRequestManager {
 
     @Override
     public void get(String url, Map<String, String> maps, final IRequestCallback iRequestCallback) {
-        setRequestParams(url, maps,true);
+        setRequestParams(url, maps, true);
         cancelable = x.http().get(params, new Callback.CommonCallback<String>() {
 
             @Override
@@ -124,9 +125,9 @@ public class XutilRequestManager implements IRequestManager {
     @Override
     public void post(String url, Map<String, String> maps, final IRequestCallback iRequestCallback) {
         //设置参数
-        setRequestParams(url, maps,false);
+        setRequestParams(url, maps, false);
         if (params == null) {
-            return ;
+            return;
         }
         cancelable = x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
@@ -164,7 +165,7 @@ public class XutilRequestManager implements IRequestManager {
 
 
     //上传多文件
-    private void uploadFile(final IRequestCallback iRequestCallback){
+    private void uploadFile(final IRequestCallback iRequestCallback) {
         RequestParams params = new RequestParams("http://192.168.0.13:8080/upload");
         // 加到url里的参数, http://xxxx/s?wd=xUtils
         params.addQueryStringParameter("wd", "xUtils");
@@ -212,7 +213,7 @@ public class XutilRequestManager implements IRequestManager {
 
 
     //缓存示例
-    private void onCache(final IRequestCallback iRequestCallback){
+    private void onCache(final IRequestCallback iRequestCallback) {
         RequestParams params = new RequestParams("http://192.168.0.13:8080/upload");
         // 默认缓存存活时间, 单位:毫秒.(如果服务没有返回有效的max-age或Expires)
         params.setCacheMaxAge(1000 * 60);
@@ -281,7 +282,6 @@ public class XutilRequestManager implements IRequestManager {
                 }
                 iRequestCallback.finish();
             }
+        });
     }
-
-
 }
